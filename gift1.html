@@ -2,78 +2,83 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Mini Game 8/3</title>
+<title>Game 8/3</title>
 
 <style>
 
 body{
-    margin:0;
-    overflow:hidden;
-    font-family:sans-serif;
-    background:linear-gradient(120deg,#ff9ecf,#ffd6ec);
+margin:0;
+overflow:hidden;
+font-family:sans-serif;
+background:linear-gradient(120deg,#ff9ecf,#ffd6ec);
 }
 
-/* bộ đếm */
+/* điểm */
+
 #score{
-    position:fixed;
-    top:20px;
-    left:20px;
-    font-size:22px;
-    font-weight:bold;
-    background:white;
-    padding:10px 20px;
-    border-radius:20px;
+position:fixed;
+top:20px;
+left:20px;
+font-size:22px;
+font-weight:bold;
+background:white;
+padding:10px 20px;
+border-radius:20px;
 }
 
-/* text bay */
-.text-box{
+/* chữ */
 
-    position:absolute;
-    padding:10px 20px;
-    border-radius:20px;
-    cursor:pointer;
-    font-weight:bold;
-    animation:float 10s linear infinite;
-
+.item{
+position:absolute;
+padding:10px 20px;
+border-radius:20px;
+font-weight:bold;
 }
 
-@keyframes float{
+/* thanh */
 
-    0%{
-        transform:translateY(100vh);
-    }
+#bar{
 
-    100%{
-        transform:translateY(-100vh);
-    }
+position:fixed;
+bottom:30px;
 
+width:150px;
+height:20px;
+
+background:#ff4da6;
+
+border-radius:10px;
+
+left:50%;
+transform:translateX(-50%);
 }
 
-/* màn hình chúc */
+/* màn thắng */
+
 #win{
 
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.7);
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
 
-    display:none;
+background:rgba(0,0,0,0.8);
 
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
+display:none;
 
-    color:white;
-    text-align:center;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+
+color:white;
+text-align:center;
 }
 
 #win img{
-
-    width:300px;
-    border-radius:20px;
-    margin-bottom:20px;
+width:300px;
+border-radius:20px;
+margin-bottom:20px;
 }
 
 </style>
@@ -82,6 +87,8 @@ body{
 <body>
 
 <div id="score">Điểm: 0</div>
+
+<div id="bar"></div>
 
 <div id="win">
 
@@ -93,72 +100,177 @@ body{
 
 <script>
 
-let score=0;
-const goal=10;
+let score=0
+let speed=3
+
+const goal=100
 
 const texts=[
-
 "🌸 8/3 vui vẻ",
-"💐 Chúc bạn luôn xinh đẹp",
-"🌷 Chúc bạn hạnh phúc",
-"🌹 Chúc bạn cười nhiều hơn",
-"🌺 Chúc bạn luôn may mắn",
-"💖 Hy vọng bạn luôn vui",
-"🌼 Mong bạn luôn tỏa sáng",
-"✨ Chúc bạn một ngày tuyệt vời",
-"💕 Bạn thật đặc biệt",
-"🎀 Chúc bạn nhiều niềm vui",
+"💐 luôn xinh đẹp",
+"🌷 luôn hạnh phúc",
+"🌹 luôn rạng rỡ",
+"🌺 nhiều niềm vui",
+"💖 nhiều may mắn",
+"🌼 luôn tỏa sáng"
+]
 
-"🌸 8/3 thật đẹp",
-"💐 Luôn rạng rỡ nhé",
-"🌷 Chúc bạn bình an",
-"🌹 Hy vọng bạn hạnh phúc",
-"🌺 Chúc bạn luôn vui vẻ"
+const badItems=[
+"💣",
+"😈",
+"⚡"
+]
 
-];
+const bar=document.getElementById("bar")
 
-function createText(){
+let barX=window.innerWidth/2
 
-    const div=document.createElement("div");
+/* di chuyển chuột */
 
-    div.className="text-box";
+document.addEventListener("mousemove",e=>{
+barX=e.clientX
+bar.style.left=barX+"px"
+})
 
-    div.innerText=texts[Math.floor(Math.random()*texts.length)];
+/* di chuyển phím */
 
-    div.style.left=Math.random()*90+"%";
+document.addEventListener("keydown",e=>{
 
-    div.style.background=
-    "hsl("+Math.random()*360+",70%,85%)";
+if(e.key==="ArrowLeft"){
 
-    div.onclick=function(){
-
-        score++;
-
-        document.getElementById("score").innerText="Điểm: "+score;
-
-        div.remove();
-
-        if(score>=goal){
-
-            document.getElementById("win").style.display="flex";
-
-        }
-
-    }
-
-    document.body.appendChild(div);
-
-    setTimeout(()=>{
-
-        div.remove();
-
-    },10000);
+barX-=40
 
 }
 
-/* tạo nhiều text */
+if(e.key==="ArrowRight"){
 
-setInterval(createText,800);
+barX+=40
+
+}
+
+bar.style.left=barX+"px"
+
+})
+
+/* tạo vật */
+
+function createItem(){
+
+const div=document.createElement("div")
+
+div.className="item"
+
+let good=Math.random()>0.25
+
+if(good){
+
+div.innerText=texts[Math.floor(Math.random()*texts.length)]
+div.dataset.type="good"
+div.style.background="white"
+
+}else{
+
+div.innerText=badItems[Math.floor(Math.random()*badItems.length)]
+div.dataset.type="bad"
+div.style.background="#ff6666"
+
+}
+
+div.style.left=Math.random()*90+"%"
+div.style.top="-40px"
+
+document.body.appendChild(div)
+
+let y=0
+
+const fall=setInterval(()=>{
+
+y+=speed
+
+div.style.top=y+"px"
+
+const rect=div.getBoundingClientRect()
+const barRect=bar.getBoundingClientRect()
+
+if(
+
+rect.bottom>=barRect.top &&
+rect.left<barRect.right &&
+rect.right>barRect.left
+
+){
+
+if(div.dataset.type==="good"){
+
+score++
+
+showEffect("+1")
+
+}else{
+
+score-=5
+
+showEffect("-5")
+
+if(score<0) score=0
+
+}
+
+document.getElementById("score").innerText="Điểm: "+score
+
+div.remove()
+clearInterval(fall)
+
+/* tăng tốc */
+
+speed=3+score*0.05
+
+if(score>=goal){
+
+document.getElementById("win").style.display="flex"
+
+}
+
+}
+
+if(y>window.innerHeight){
+
+div.remove()
+clearInterval(fall)
+
+}
+
+},20)
+
+}
+
+/* hiệu ứng điểm */
+
+function showEffect(text){
+
+const e=document.createElement("div")
+
+e.innerText=text
+
+e.style.position="fixed"
+e.style.bottom="80px"
+e.style.left=barX+"px"
+e.style.fontSize="20px"
+e.style.fontWeight="bold"
+
+document.body.appendChild(e)
+
+setTimeout(()=>{
+
+e.remove()
+
+},700)
+
+}
+
+/* tạo vật liên tục */
+
+setInterval(createItem,900)
 
 </script>
 
