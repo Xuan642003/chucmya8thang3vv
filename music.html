@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Love Music</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Times New Roman",serif;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#ffd6e7,#f6a7c1);
+overflow:hidden;
+}
+
+/* trái tim bay */
+
+.heart{
+position:fixed;
+bottom:-20px;
+color:#ff4d88;
+animation:fly 6s linear forwards;
+}
+
+@keyframes fly{
+0%{transform:translateY(0);opacity:1}
+100%{transform:translateY(-100vh);opacity:0}
+}
+
+.player{
+width:92%;
+max-width:420px;
+background:rgba(255,255,255,0.85);
+border-radius:25px;
+padding:20px;
+text-align:center;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+.top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:10px;
+}
+
+.title{
+font-weight:bold;
+color:#e04a7f;
+font-size:18px;
+}
+
+.close{
+width:35px;
+height:35px;
+border-radius:50%;
+background:#ff5c8a;
+color:white;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+}
+
+.cover{
+width:200px;
+height:200px;
+border-radius:50%;
+object-fit:cover;
+margin:10px auto;
+animation:spin 8s linear infinite;
+animation-play-state:paused;
+}
+
+@keyframes spin{
+from{transform:rotate(0)}
+to{transform:rotate(360deg)}
+}
+
+.song{
+color:#d6336c;
+margin:10px 0;
+font-weight:bold;
+font-size:18px;
+}
+
+.progress{
+width:100%;
+height:6px;
+background:#ffd1e3;
+border-radius:10px;
+margin:15px 0;
+}
+
+.bar{
+height:100%;
+width:0%;
+background:#ff5c8a;
+border-radius:10px;
+}
+
+.time{
+display:flex;
+justify-content:space-between;
+font-size:13px;
+color:#c54b73;
+}
+
+.controls{
+display:flex;
+justify-content:center;
+align-items:center;
+gap:30px;
+margin:20px 0;
+}
+
+.btn{
+font-size:24px;
+cursor:pointer;
+color:#ff5c8a;
+}
+
+.play{
+width:65px;
+height:65px;
+background:#ff5c8a;
+color:white;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:26px;
+cursor:pointer;
+}
+
+.playlist{
+margin-top:15px;
+}
+
+.track{
+display:flex;
+align-items:center;
+gap:10px;
+background:#fff;
+padding:10px;
+border-radius:12px;
+margin-bottom:10px;
+cursor:pointer;
+transition:0.2s;
+}
+
+.track img{
+width:45px;
+height:45px;
+border-radius:50%;
+object-fit:cover;
+}
+
+.track:hover{
+background:#ffe3ef;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="player">
+
+<div class="top">
+<div class="title"><i class="fa-solid fa-music"></i> LOVE SONG</div>
+<div class="close" onclick="goBack()"><i class="fa-solid fa-xmark"></i></div>
+</div>
+
+<img src="img20.jpg" class="cover" id="cover">
+
+<div class="song" id="songTitle">Lỡ say bye là bye</div>
+
+<div class="time">
+<span id="current">0:00</span>
+<span id="duration">0:00</span>
+</div>
+
+<div class="progress">
+<div class="bar" id="bar"></div>
+</div>
+
+<div class="controls">
+
+<div class="btn" onclick="prev()">
+<i class="fa-solid fa-backward"></i>
+</div>
+
+<div class="play" onclick="togglePlay()" id="playBtn">
+<i class="fa-solid fa-play"></i>
+</div>
+
+<div class="btn" onclick="next()">
+<i class="fa-solid fa-forward"></i>
+</div>
+
+</div>
+
+<div class="playlist">
+
+<div class="track" onclick="playTrack(0)">
+<img src="img11.jpg">
+<span>Lỡ say bye là bye</span>
+</div>
+
+<div class="track" onclick="playTrack(1)">
+<img src="img9.jpg">
+<span>Track 06 x Nơi này có anh</span>
+</div>
+
+<div class="track" onclick="playTrack(2)">
+<img src="img13.jpg">
+<span>Em bé</span>
+</div>
+
+<div class="track" onclick="playTrack(3)">
+<img src="img14.jpg">
+<span>Nàng thơ</span>
+</div>
+
+</div>
+
+</div>
+
+<audio id="audio"></audio>
+
+<script>
+
+let songs=[
+{title:"Lỡ say bye là bye",src:"music1.mp3"},
+{title:"Nơi Này Có Anh",src:"music2.mp3"},
+{title:"Em bé",src:"music3.mp3"},
+{title:"Nàng thơ",src:"music4.mp3"}
+]
+
+let audio=document.getElementById("audio")
+let title=document.getElementById("songTitle")
+let bar=document.getElementById("bar")
+let playBtn=document.getElementById("playBtn")
+let cover=document.getElementById("cover")
+
+let index=0
+
+function vibrate(){
+if(navigator.vibrate) navigator.vibrate(30)
+}
+
+function loadSong(i){
+audio.src=songs[i].src
+title.innerText=songs[i].title
+}
+
+loadSong(index)
+
+function togglePlay(){
+
+vibrate()
+
+if(audio.paused){
+
+audio.play()
+playBtn.innerHTML='<i class="fa-solid fa-pause"></i>'
+cover.style.animationPlayState="running"
+
+}else{
+
+audio.pause()
+playBtn.innerHTML='<i class="fa-solid fa-play"></i>'
+cover.style.animationPlayState="paused"
+
+}
+
+}
+
+audio.addEventListener("timeupdate",()=>{
+
+let percent=(audio.currentTime/audio.duration)*100
+bar.style.width=percent+"%"
+
+document.getElementById("current").innerText=format(audio.currentTime)
+document.getElementById("duration").innerText=format(audio.duration)
+
+})
+
+function format(t){
+let m=Math.floor(t/60)||0
+let s=Math.floor(t%60)||0
+if(s<10)s="0"+s
+return m+":"+s
+}
+
+function next(){
+vibrate()
+index++
+if(index>=songs.length) index=0
+loadSong(index)
+audio.play()
+}
+
+function prev(){
+vibrate()
+index--
+if(index<0) index=songs.length-1
+loadSong(index)
+audio.play()
+}
+
+function playTrack(i){
+vibrate()
+index=i
+loadSong(index)
+audio.play()
+}
+
+function goBack(){
+window.location.href="index1.html"
+}
+
+/* trái tim bay */
+
+setInterval(()=>{
+
+let heart=document.createElement("div")
+heart.className="heart"
+heart.innerHTML="❤"
+
+heart.style.left=Math.random()*100+"vw"
+heart.style.fontSize=(15+Math.random()*25)+"px"
+
+document.body.appendChild(heart)
+
+setTimeout(()=>heart.remove(),6000)
+
+},700)
+
+</script>
+
+</body>
+</html>

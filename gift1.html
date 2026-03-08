@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Mini Game 8/3</title>
+
+<style>
+
+body{
+    margin:0;
+    overflow:hidden;
+    font-family:sans-serif;
+    background:linear-gradient(120deg,#ff9ecf,#ffd6ec);
+}
+
+/* bộ đếm */
+#score{
+    position:fixed;
+    top:20px;
+    left:20px;
+    font-size:22px;
+    font-weight:bold;
+    background:white;
+    padding:10px 20px;
+    border-radius:20px;
+}
+
+/* text bay */
+.text-box{
+
+    position:absolute;
+    padding:10px 20px;
+    border-radius:20px;
+    cursor:pointer;
+    font-weight:bold;
+    animation:float 10s linear infinite;
+
+}
+
+@keyframes float{
+
+    0%{
+        transform:translateY(100vh);
+    }
+
+    100%{
+        transform:translateY(-100vh);
+    }
+
+}
+
+/* màn hình chúc */
+#win{
+
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.7);
+
+    display:none;
+
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+
+    color:white;
+    text-align:center;
+}
+
+#win img{
+
+    width:300px;
+    border-radius:20px;
+    margin-bottom:20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="score">Điểm: 0</div>
+
+<div id="win">
+
+<img src="anh1.jpg">
+
+<h1>CHÚC NGƯỜI MÀ TỚ THẦM THƯƠNG<br>8/3 VUI VẺ 🌸</h1>
+
+</div>
+
+<script>
+
+let score=0;
+const goal=10;
+
+const texts=[
+
+"🌸 8/3 vui vẻ",
+"💐 Chúc bạn luôn xinh đẹp",
+"🌷 Chúc bạn hạnh phúc",
+"🌹 Chúc bạn cười nhiều hơn",
+"🌺 Chúc bạn luôn may mắn",
+"💖 Hy vọng bạn luôn vui",
+"🌼 Mong bạn luôn tỏa sáng",
+"✨ Chúc bạn một ngày tuyệt vời",
+"💕 Bạn thật đặc biệt",
+"🎀 Chúc bạn nhiều niềm vui",
+
+"🌸 8/3 thật đẹp",
+"💐 Luôn rạng rỡ nhé",
+"🌷 Chúc bạn bình an",
+"🌹 Hy vọng bạn hạnh phúc",
+"🌺 Chúc bạn luôn vui vẻ"
+
+];
+
+function createText(){
+
+    const div=document.createElement("div");
+
+    div.className="text-box";
+
+    div.innerText=texts[Math.floor(Math.random()*texts.length)];
+
+    div.style.left=Math.random()*90+"%";
+
+    div.style.background=
+    "hsl("+Math.random()*360+",70%,85%)";
+
+    div.onclick=function(){
+
+        score++;
+
+        document.getElementById("score").innerText="Điểm: "+score;
+
+        div.remove();
+
+        if(score>=goal){
+
+            document.getElementById("win").style.display="flex";
+
+        }
+
+    }
+
+    document.body.appendChild(div);
+
+    setTimeout(()=>{
+
+        div.remove();
+
+    },10000);
+
+}
+
+/* tạo nhiều text */
+
+setInterval(createText,800);
+
+</script>
+
+</body>
+</html>

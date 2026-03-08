@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Love Letter</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Times New Roman",serif;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#ffd6e7,#ffb3d1);
+overflow:hidden;
+}
+
+/* nút thoát */
+
+.close{
+position:fixed;
+top:15px;
+right:18px;
+font-size:28px;
+color:#c7376a;
+cursor:pointer;
+font-weight:bold;
+z-index:10;
+}
+
+/* trái tim bay */
+
+.heart{
+position:fixed;
+bottom:-20px;
+color:#ff4d88;
+animation:fly 6s linear forwards;
+}
+
+@keyframes fly{
+0%{transform:translateY(0);opacity:1}
+100%{transform:translateY(-100vh);opacity:0}
+}
+
+/* khung thiệp */
+
+.card{
+width:90%;
+max-width:380px;
+background:#fff;
+padding:22px;
+border-radius:16px;
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
+border:2px solid #ffc2d9;
+}
+
+.title{
+text-align:center;
+font-size:22px;
+color:#d6336c;
+margin-bottom:10px;
+}
+
+.text{
+font-size:17px;
+line-height:1.55;
+color:#444;
+min-height:160px;
+white-space:pre-line;
+}
+
+.cursor{
+display:inline-block;
+width:2px;
+background:#333;
+margin-left:3px;
+animation:blink 1s infinite;
+}
+
+@keyframes blink{
+0%{opacity:0}
+50%{opacity:1}
+100%{opacity:0}
+}
+
+.signature{
+margin-top:12px;
+text-align:right;
+color:#d6336c;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="close" onclick="goBack()">✕</div>
+
+<div class="card">
+
+<div class="title">💌 Happy Women's Day</div>
+
+<div class="text" id="text"></div>
+
+<div class="signature">— From someone who loves you ❤️</div>
+
+</div>
+
+<script>
+
+/* rung nhẹ */
+
+if(navigator.vibrate){
+navigator.vibrate([120,60,120])
+}
+
+/* quay lại menu */
+
+function goBack(){
+window.location.href="index1.html"
+}
+
+/* nội dung */
+
+let message=`Gửi Mya ❤️
+
+Nhân ngày 8/3, anh muốn chúc em
+luôn thật nhiều niềm vui và hạnh phúc.
+
+Cảm ơn em vì đã xuất hiện
+trong cuộc đời anh,
+mang đến cho anh
+những nụ cười và sự ấm áp.
+
+Chúc em luôn xinh đẹp, mạnh khỏe
+luôn hạnh phúc và
+luôn là chính em.
+
+Hy vọng rằng mỗi ngày sau này,
+anh vẫn sẽ được ở bên em
+và cùng em tạo nên
+thật nhiều kỷ niệm đẹp.`
+
+let i=0
+let speed=60
+
+function typeWriter(){
+
+if(i < message.length){
+document.getElementById("text").innerHTML += message.charAt(i)
+i++
+setTimeout(typeWriter,speed)
+}
+
+}
+
+typeWriter()
+
+/* tim bay */
+
+setInterval(()=>{
+
+let heart=document.createElement("div")
+
+heart.className="heart"
+heart.innerHTML="❤"
+
+heart.style.left=Math.random()*100+"vw"
+heart.style.fontSize=(14+Math.random()*24)+"px"
+
+document.body.appendChild(heart)
+
+setTimeout(()=>{
+heart.remove()
+},6000)
+
+},900)
+
+</script>
+
+</body>
+</html>

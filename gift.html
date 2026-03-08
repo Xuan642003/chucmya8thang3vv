@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secret Gift</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Times New Roman",serif;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#ffd6e7,#f6a7c1);
+overflow:hidden;
+}
+
+/* box */
+
+.box{
+width:90%;
+max-width:350px;
+background:white;
+padding:25px;
+border-radius:18px;
+text-align:center;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+h2{
+color:#d6336c;
+margin-bottom:15px;
+}
+
+input{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:2px solid #ffc2d9;
+outline:none;
+font-size:16px;
+margin-bottom:15px;
+text-align:center;
+}
+
+button{
+width:100%;
+padding:12px;
+border:none;
+border-radius:12px;
+background:#ff5c8a;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+.error{
+color:red;
+font-size:14px;
+margin-top:10px;
+}
+
+/* nút X */
+
+.close{
+position:fixed;
+top:15px;
+right:18px;
+font-size:28px;
+color:#d6336c;
+cursor:pointer;
+}
+
+/* tim bay */
+
+.heart{
+position:fixed;
+bottom:-20px;
+color:#ff4d88;
+animation:fly 6s linear forwards;
+}
+
+@keyframes fly{
+0%{transform:translateY(0);opacity:1}
+100%{transform:translateY(-100vh);opacity:0}
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="close" onclick="goBack()">✕</div>
+
+<div class="box">
+
+<h2>🎁 Secret Gift</h2>
+
+<input id="password" placeholder="Nhập mật khẩu">
+
+<button onclick="check()">Mở quà</button>
+
+<div class="error" id="error"></div>
+
+</div>
+
+<script>
+
+function goBack(){
+window.location.href="index1.html"
+}
+
+function vibrate(){
+if(navigator.vibrate) navigator.vibrate([100,50,100])
+}
+
+function check(){
+
+let pass=document.getElementById("password").value
+
+if(pass==="LETHUYTRANG"){
+
+window.location.href="gift1.html"
+
+}else{
+
+vibrate()
+
+document.getElementById("error").innerText="Sai mật khẩu rồi ❤️"
+
+}
+
+}
+
+/* enter cũng mở */
+
+document.getElementById("password").addEventListener("keypress",function(e){
+
+if(e.key==="Enter"){
+check()
+}
+
+})
+
+/* tim bay */
+
+setInterval(()=>{
+
+let heart=document.createElement("div")
+
+heart.className="heart"
+heart.innerHTML="❤"
+
+heart.style.left=Math.random()*100+"vw"
+heart.style.fontSize=(15+Math.random()*25)+"px"
+
+document.body.appendChild(heart)
+
+setTimeout(()=>heart.remove(),6000)
+
+},800)
+
+</script>
+
+</body>
+</html>

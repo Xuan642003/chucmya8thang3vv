@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Love Menu</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Times New Roman",serif;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#ffd6e7,#f6a7c1);
+overflow:hidden;
+}
+
+/* trái tim bay */
+
+.heart{
+position:fixed;
+bottom:-20px;
+color:#ff4d88;
+animation:fly 6s linear forwards;
+}
+
+@keyframes fly{
+0%{
+transform:translateY(0);
+opacity:1;
+}
+100%{
+transform:translateY(-100vh);
+opacity:0;
+}
+}
+
+.container{
+width:92%;
+max-width:420px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+}
+
+.card{
+background:rgba(255,255,255,0.6);
+backdrop-filter:blur(10px);
+border-radius:20px;
+padding:35px 10px;
+text-align:center;
+cursor:pointer;
+transition:0.25s;
+box-shadow:0 6px 15px rgba(0,0,0,0.15);
+}
+
+.card:active{
+transform:scale(0.90);
+box-shadow:0 2px 8px rgba(0,0,0,0.2);
+}
+
+.icon{
+font-size:42px;
+margin-bottom:12px;
+color:#ff4d88;
+}
+
+.title{
+color:#c7376a;
+font-weight:bold;
+font-size:18px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card" onclick="openPage('music.html')">
+<div class="icon"><i class="fa-solid fa-music"></i></div>
+<div class="title">Music</div>
+</div>
+
+<div class="card" onclick="openPage('letter.html')">
+<div class="icon"><i class="fa-solid fa-envelope"></i></div>
+<div class="title">Letter</div>
+</div>
+
+<div class="card" onclick="openPage('image.html')">
+<div class="icon"><i class="fa-solid fa-image"></i></div>
+<div class="title">Image</div>
+</div>
+
+<div class="card" onclick="openPage('gift.html')">
+<div class="icon"><i class="fa-solid fa-gift"></i></div>
+<div class="title">Gift</div>
+</div>
+
+</div>
+
+<script>
+
+/* rung điện thoại */
+
+function vibrate(){
+if(navigator.vibrate){
+navigator.vibrate([40,20,40])
+}
+}
+
+/* mở trang */
+
+function openPage(page){
+
+vibrate()
+
+setTimeout(()=>{
+window.location.href=page
+},150)
+
+}
+
+/* tạo trái tim bay */
+
+setInterval(()=>{
+
+let heart=document.createElement("div")
+heart.className="heart"
+heart.innerHTML='<i class="fa-solid fa-heart"></i>'
+
+heart.style.left=Math.random()*100+"vw"
+heart.style.fontSize=(16+Math.random()*26)+"px"
+
+document.body.appendChild(heart)
+
+setTimeout(()=>{
+heart.remove()
+},6000)
+
+},700)
+
+</script>
+
+</body>
+</html>

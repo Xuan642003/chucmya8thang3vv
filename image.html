@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Love Images</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Times New Roman",serif;
+}
+
+body{
+height:100vh;
+background:linear-gradient(135deg,#ffd6e7,#f6a7c1);
+overflow:hidden;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+/* nút thoát */
+
+.close{
+position:fixed;
+top:15px;
+right:18px;
+font-size:28px;
+color:#d6336c;
+cursor:pointer;
+z-index:20;
+}
+
+/* gallery */
+
+.gallery{
+width:95%;
+max-width:520px;
+overflow:hidden;
+}
+
+/* hàng */
+
+.row{
+display:flex;
+gap:12px;
+margin:12px 0;
+width:max-content;
+}
+
+.row img{
+width:120px;
+height:160px;
+object-fit:cover;
+border-radius:14px;
+cursor:pointer;
+box-shadow:0 6px 15px rgba(0,0,0,0.2);
+}
+
+/* animation vô hạn */
+
+.row1{
+animation:moveRight 25s linear infinite;
+}
+
+.row2{
+animation:moveLeft 25s linear infinite;
+}
+
+@keyframes moveRight{
+from{transform:translateX(-50%)}
+to{transform:translateX(0)}
+}
+
+@keyframes moveLeft{
+from{transform:translateX(0)}
+to{transform:translateX(-50%)}
+}
+
+/* popup ảnh */
+
+.viewer{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.85);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:30;
+}
+
+.viewer img{
+width:90%;
+max-width:420px;
+border-radius:16px;
+}
+
+.viewer .closeImg{
+position:absolute;
+top:20px;
+right:25px;
+font-size:32px;
+color:white;
+cursor:pointer;
+}
+
+/* tim bay */
+
+.heart{
+position:fixed;
+bottom:-20px;
+color:#ff4d88;
+animation:fly 6s linear forwards;
+}
+
+@keyframes fly{
+0%{transform:translateY(0);opacity:1}
+100%{transform:translateY(-100vh);opacity:0}
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="close" onclick="goBack()">✕</div>
+
+<div class="gallery">
+
+<div class="row row1">
+
+<img src="img1.jpg" onclick="openImg(this)">
+<img src="img2.jpg" onclick="openImg(this)">
+<img src="img3.jpg" onclick="openImg(this)">
+<img src="img4.jpg" onclick="openImg(this)">
+<img src="img5.jpg" onclick="openImg(this)">
+<img src="img6.jpg" onclick="openImg(this)">
+<img src="img7.jpg" onclick="openImg(this)">
+<img src="img8.jpg" onclick="openImg(this)">
+<img src="img9.jpg" onclick="openImg(this)">
+<img src="img10.jpg" onclick="openImg(this)">
+
+<!-- lặp lại để chạy vô hạn -->
+
+<img src="img1.jpg" onclick="openImg(this)">
+<img src="img2.jpg" onclick="openImg(this)">
+<img src="img3.jpg" onclick="openImg(this)">
+<img src="img4.jpg" onclick="openImg(this)">
+<img src="img5.jpg" onclick="openImg(this)">
+<img src="img6.jpg" onclick="openImg(this)">
+<img src="img7.jpg" onclick="openImg(this)">
+<img src="img8.jpg" onclick="openImg(this)">
+<img src="img9.jpg" onclick="openImg(this)">
+<img src="img10.jpg" onclick="openImg(this)">
+
+</div>
+
+<div class="row row2">
+
+<img src="img11.jpg" onclick="openImg(this)">
+<img src="img12.jpg" onclick="openImg(this)">
+<img src="img13.jpg" onclick="openImg(this)">
+<img src="img14.jpg" onclick="openImg(this)">
+<img src="img15.jpg" onclick="openImg(this)">
+<img src="img16.jpg" onclick="openImg(this)">
+<img src="img17.jpg" onclick="openImg(this)">
+<img src="img18.jpg" onclick="openImg(this)">
+<img src="img19.jpg" onclick="openImg(this)">
+<img src="img20.jpg" onclick="openImg(this)">
+
+<!-- lặp lại -->
+
+<img src="img11.jpg" onclick="openImg(this)">
+<img src="img12.jpg" onclick="openImg(this)">
+<img src="img13.jpg" onclick="openImg(this)">
+<img src="img14.jpg" onclick="openImg(this)">
+<img src="img15.jpg" onclick="openImg(this)">
+<img src="img16.jpg" onclick="openImg(this)">
+<img src="img17.jpg" onclick="openImg(this)">
+<img src="img18.jpg" onclick="openImg(this)">
+<img src="img19.jpg" onclick="openImg(this)">
+<img src="img20.jpg" onclick="openImg(this)">
+
+</div>
+
+</div>
+
+<!-- popup -->
+
+<div class="viewer" id="viewer">
+<div class="closeImg" onclick="closeImg()">✕</div>
+<img id="viewImg">
+</div>
+
+<script>
+
+function goBack(){
+window.location.href="index1.html"
+}
+
+/* phóng to ảnh */
+
+function openImg(el){
+
+document.getElementById("viewer").style.display="flex"
+document.getElementById("viewImg").src=el.src
+
+}
+
+function closeImg(){
+document.getElementById("viewer").style.display="none"
+}
+
+/* tim bay */
+
+setInterval(()=>{
+
+let heart=document.createElement("div")
+
+heart.className="heart"
+heart.innerHTML="❤"
+
+heart.style.left=Math.random()*100+"vw"
+heart.style.fontSize=(15+Math.random()*25)+"px"
+
+document.body.appendChild(heart)
+
+setTimeout(()=>heart.remove(),6000)
+
+},800)
+
+</script>
+
+</body>
+</html>

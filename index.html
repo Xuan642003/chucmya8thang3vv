@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Love Lock</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family: "Poppins", sans-serif;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#ffd1e3,#f6a7c1);
+}
+
+.container{
+width:95%;
+max-width:420px;
+background:#ffc3d6;
+border-radius:30px;
+padding:20px;
+display:flex;
+gap:18px;
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+.photo{
+flex:1;
+}
+
+.photo img{
+width:100%;
+height:100%;
+object-fit:cover;
+border-radius:15px;
+}
+
+.right{
+flex:1;
+text-align:center;
+}
+
+.heart{
+font-size:28px;
+color:#ff2f6d;
+animation:beat 1s infinite;
+}
+
+@keyframes beat{
+0%{transform:scale(1)}
+50%{transform:scale(1.2)}
+100%{transform:scale(1)}
+}
+
+.dots{
+display:flex;
+justify-content:center;
+gap:10px;
+margin:15px 0 25px;
+}
+
+.dot{
+width:12px;
+height:12px;
+border-radius:50%;
+border:2px solid white;
+}
+
+.dot.active{
+background:white;
+}
+
+.keypad{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px;
+}
+
+.key{
+height:55px;
+border-radius:50%;
+background:white;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+transition:0.15s;
+}
+
+.key:active{
+transform:scale(0.9);
+background:#ff8fb1;
+color:white;
+}
+
+.delete{
+background:#ff5c8a;
+color:white;
+}
+
+@media (max-width:420px){
+
+.container{
+flex-direction:row;
+}
+
+.key{
+height:50px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="photo">
+<img src="anh1.jpg">
+</div>
+
+<div class="right">
+
+<div class="heart">❤</div>
+
+<div class="dots">
+<div class="dot"></div>
+<div class="dot"></div>
+<div class="dot"></div>
+<div class="dot"></div>
+</div>
+
+<div class="keypad">
+
+<div class="key" onclick="press(1)">1</div>
+<div class="key" onclick="press(2)">2</div>
+<div class="key" onclick="press(3)">3</div>
+
+<div class="key" onclick="press(4)">4</div>
+<div class="key" onclick="press(5)">5</div>
+<div class="key" onclick="press(6)">6</div>
+
+<div class="key" onclick="press(7)">7</div>
+<div class="key" onclick="press(8)">8</div>
+<div class="key" onclick="press(9)">9</div>
+
+<div></div>
+<div class="key" onclick="press(0)">0</div>
+<div class="key delete" onclick="del()">✕</div>
+
+</div>
+</div>
+</div>
+
+<script>
+
+let password = "0803"
+let input = ""
+
+let dots = document.querySelectorAll(".dot")
+
+function updateDots(){
+
+dots.forEach((dot,i)=>{
+dot.classList.toggle("active",i < input.length)
+})
+
+}
+
+function press(num){
+
+if(input.length >= 4) return
+
+input += num
+updateDots()
+
+if(input.length === 4){
+
+if(input === password){
+
+setTimeout(()=>{
+window.location.href="index1.html"
+},300)
+
+}else{
+
+wrong()
+
+}
+
+}
+
+}
+
+function del(){
+
+input = input.slice(0,-1)
+updateDots()
+
+}
+
+function wrong(){
+
+if(navigator.vibrate){
+navigator.vibrate([200,100,200])
+}
+
+document.querySelector(".container").animate([
+{transform:"translateX(-6px)"},
+{transform:"translateX(6px)"},
+{transform:"translateX(-6px)"},
+{transform:"translateX(6px)"},
+{transform:"translateX(0)"}
+],{duration:300})
+
+setTimeout(()=>{
+input=""
+updateDots()
+},400)
+
+}
+
+</script>
+
+</body>
+</html>
